@@ -223,6 +223,20 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   .client-select-row .btn,.location-select-row .btn{padding:8px;font-size:11px;white-space:nowrap}
   .modal-foot .btn{min-height:42px}
 }
+
+.work-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.row-date{font-size:13px;color:var(--muted);margin-top:3px}
+.row-toggle{display:none;border:0;background:transparent;color:var(--blue);font-size:12px;font-weight:650;padding:5px}
+.row-details{display:block}
+@media(max-width:600px){
+  .work-heading{align-items:flex-start}
+  .row-date{font-size:10px;margin-top:2px}
+  .row-toggle{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;min-height:32px}
+  .row-details{display:none;margin-top:7px;padding:7px 8px;border-radius:9px;background:#f7f8fc}
+  .work-row.expanded .row-details{display:block}
+  .work-row.expanded .row-toggle{background:#eef1ff;border-radius:8px}
+  .row-sub,.row-meta,.row-note{font-size:10px}
+}
 </style>
 <script>
 (function(){
@@ -372,7 +386,7 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
     list.innerHTML=records.map(r=>{
       const expenses=Number(r.transport||0)+Number(r.meals||0),meta=[];
       if(r.client)meta.push('Client: '+esc(r.client));if(r.location)meta.push('Lloc: '+esc(r.location));if(Number(r.transport||0))meta.push(`Transport ${euro(r.transport)}`);if(Number(r.meals||0))meta.push(`Dietes ${euro(r.meals)}`);
-      return `<div class="work-row"><div class="day-icon">${new Date(r.date+'T12:00:00').getDate()}</div><div><div class="row-title">${esc(r.name||'Jornada de treball')}${r.extra?'<span class="tag">Extra</span>':''}</div><div class="row-sub">${fmtDate(r.date)} · jornada ${hoursText(r.hours)} · ${Number(r.overtime||0)} h extres</div>${r.notes?`<div class="row-note">📝 ${esc(r.notes)}</div>`:''}${meta.length?`<div class="row-meta">${meta.join(' · ')}${expenses?` · Total despeses ${euro(expenses)}`:''}</div>`:''}</div><div class="hours">${hoursText(totalHours(r))}<small>total <button type="button" class="btn small" data-edit="${r.id}" style="margin-top:5px">Editar</button> <button class="btn small" data-del="${r.id}" aria-label="Esborrar jornada" style="margin-top:5px">×</button></small></div></div>`;
+      return `<div class="work-row"><div class="day-icon">${new Date(r.date+'T12:00:00').getDate()}</div><div class="work-main"><div class="work-heading"><div><div class="row-title">${esc(r.name||'Jornada de treball')}${r.extra?'<span class="tag">Extra</span>':''}</div><div class="row-date">${fmtDate(r.date)}</div></div><button type="button" class="row-toggle" data-toggle="${r.id}" aria-expanded="false">Detalls <span aria-hidden="true">⌄</span></button></div><div class="row-details"><div class="row-sub">Jornada ${hoursText(r.hours)} · ${Number(r.overtime||0)} h extres</div>${r.notes?`<div class="row-note">📝 ${esc(r.notes)}</div>`:''}${meta.length?`<div class="row-meta">${meta.join(' · ')}${expenses?` · Total despeses ${euro(expenses)}`:''}</div>`:''}</div></div><div class="hours">${hoursText(totalHours(r))}<small>total <button type="button" class="btn small" data-edit="${r.id}" style="margin-top:5px">Editar</button> <button class="btn small" data-del="${r.id}" aria-label="Esborrar jornada" style="margin-top:5px">×</button></small></div></div>`;
     }).join('');
   }
   const previousRender=render;
@@ -380,6 +394,8 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   const baseOpen=document.querySelector('#new').onclick;
   document.querySelector('#new').onclick=function(e){baseOpen.call(this,e);document.querySelector('#client').value='';fillLocationOptions();document.querySelector('#transport').value='0';document.querySelector('#meals').value='0'};
   document.querySelector('#rows').addEventListener('click',e=>{
+    const toggle=e.target.closest('[data-toggle]');
+    if(toggle){const row=toggle.closest('.work-row'),expanded=row.classList.toggle('expanded');toggle.setAttribute('aria-expanded',String(expanded));toggle.innerHTML=expanded?'Amaga <span aria-hidden="true">⌃</span>':'Detalls <span aria-hidden="true">⌄</span>';return}
     const button=e.target.closest('[data-edit]');if(!button)return;
     const record=data.find(r=>r.id===button.dataset.edit);if(!record)return;
     document.querySelector('#client').value=record.client||'';fillLocationOptions(record.client||'',record.location||'');
