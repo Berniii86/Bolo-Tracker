@@ -252,7 +252,7 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   .hours{grid-column:3;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:1px;margin:0;font-size:14px;line-height:1.1;white-space:nowrap}
   .hours small{display:flex;align-items:center;justify-content:flex-end;gap:3px;font-size:0;line-height:1}
   .hours .btn.small{min-height:28px;height:28px;padding:3px 6px;margin-top:0!important;font-size:10px;line-height:1}
-  .row-details{grid-column:2/4;margin-top:3px;padding:6px 7px}
+  .row-details{grid-column:2/3;margin-top:3px;padding:6px 7px}
 }
 
 .recent-toggle{display:flex;align-items:center;justify-content:space-between;flex:1;min-width:0;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:default}
@@ -267,12 +267,12 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
 .mobile-row-actions{display:none}
 @media(max-width:600px){
   .grid>.section{padding:13px 11px}
-  .work-row{padding:4px 0;gap:3px 6px}
+  .work-row{grid-template-columns:24px minmax(0,1fr);padding:4px 0;gap:3px 6px}
   .day-icon{width:24px;height:24px;border-radius:7px;font-size:10px}
   .row-title{font-size:11px;line-height:1.1}
-  .row-date{font-size:8px;line-height:1.1;margin-top:1px}
+  .row-date{font-size:9px;line-height:1.1;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row-toggle{width:22px;flex-basis:22px;min-height:22px;height:22px}
-  .hours{font-size:13px;line-height:1}
+  .hours{display:none}
   .hours small{display:none}
   .mobile-row-actions{display:flex;justify-content:flex-end;gap:5px;margin-top:6px}
   .mobile-row-actions .btn.small{min-height:28px;height:28px;padding:3px 8px;font-size:10px}
@@ -426,7 +426,7 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
     list.innerHTML=records.map(r=>{
       const expenses=Number(r.transport||0)+Number(r.meals||0),meta=[];
       if(r.client)meta.push('Client: '+esc(r.client));if(r.location)meta.push('Lloc: '+esc(r.location));if(Number(r.transport||0))meta.push(`Transport ${euro(r.transport)}`);if(Number(r.meals||0))meta.push(`Dietes ${euro(r.meals)}`);
-      return `<div class="work-row"><div class="day-icon">${new Date(r.date+'T12:00:00').getDate()}</div><div class="work-main"><div class="work-heading"><div><div class="row-title">${esc(r.name||'Jornada de treball')}${r.extra?'<span class="tag">Extra</span>':''}</div><div class="row-date">${fmtDate(r.date)}</div></div><button type="button" class="row-toggle" data-toggle="${r.id}" aria-expanded="false">Detalls <span aria-hidden="true">⌄</span></button></div><div class="row-details"><div class="row-sub">Jornada ${hoursText(r.hours)} · ${Number(r.overtime||0)} h extres</div>${r.notes?`<div class="row-note">📝 ${esc(r.notes)}</div>`:''}${meta.length?`<div class="row-meta">${meta.join(' · ')}${expenses?` · Total despeses ${euro(expenses)}`:''}</div>`:''}<div class="mobile-row-actions"><button type="button" class="btn small" data-edit="${r.id}">Editar</button> <button type="button" class="btn small" data-del="${r.id}" aria-label="Esborrar jornada">×</button></div></div></div><div class="hours">${hoursText(totalHours(r))}<small>total <button type="button" class="btn small" data-edit="${r.id}" style="margin-top:5px">Editar</button> <button class="btn small" data-del="${r.id}" aria-label="Esborrar jornada" style="margin-top:5px">×</button></small></div></div>`;
+      return `<div class="work-row"><div class="day-icon">${new Date(r.date+'T12:00:00').getDate()}</div><div class="work-main"><div class="work-heading"><div><div class="row-title">${esc(r.name||'Jornada de treball')}${r.extra?'<span class="tag">Extra</span>':''}</div><div class="row-date">${fmtDate(r.date)}${r.client?` · ${esc(r.client)}`:''} · ${hoursText(totalHours(r))}</div></div><button type="button" class="row-toggle" data-toggle="${r.id}" aria-expanded="false">Detalls <span aria-hidden="true">⌄</span></button></div><div class="row-details"><div class="row-sub">Jornada ${hoursText(r.hours)} · ${Number(r.overtime||0)} h extres</div>${r.notes?`<div class="row-note">📝 ${esc(r.notes)}</div>`:''}${meta.length?`<div class="row-meta">${meta.join(' · ')}${expenses?` · Total despeses ${euro(expenses)}`:''}</div>`:''}<div class="mobile-row-actions"><button type="button" class="btn small" data-edit="${r.id}">Editar</button> <button type="button" class="btn small" data-del="${r.id}" aria-label="Esborrar jornada">×</button></div></div></div><div class="hours">${hoursText(totalHours(r))}<small>total <button type="button" class="btn small" data-edit="${r.id}" style="margin-top:5px">Editar</button> <button class="btn small" data-del="${r.id}" aria-label="Esborrar jornada" style="margin-top:5px">×</button></small></div></div>`;
     }).join('');
   }
   const previousRender=render;
