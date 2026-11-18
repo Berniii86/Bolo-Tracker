@@ -237,6 +237,23 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   .work-row.expanded .row-toggle{background:#eef1ff;border-radius:8px}
   .row-sub,.row-meta,.row-note{font-size:10px}
 }
+
+@media(max-width:600px){
+  .grid>.section{padding:13px 11px}
+  .work-row{grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:4px 7px;padding:8px 0}
+  .day-icon{grid-column:1;grid-row:1;width:28px;height:28px;border-radius:8px;font-size:12px}
+  .work-main{grid-column:2;grid-row:1;min-width:0}
+  .work-heading{gap:2px;align-items:center}
+  .work-heading>div{min-width:0}
+  .row-title{font-size:12px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row-date{font-size:9px;line-height:1.2}
+  .row-toggle{font-size:0;flex:0 0 26px;width:26px;min-height:26px;height:26px;justify-content:center;padding:0}
+  .row-toggle span{font-size:14px;line-height:1}
+  .hours{grid-column:3;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:1px;margin:0;font-size:14px;line-height:1.1;white-space:nowrap}
+  .hours small{display:flex;align-items:center;justify-content:flex-end;gap:3px;font-size:0;line-height:1}
+  .hours .btn.small{min-height:28px;height:28px;padding:3px 6px;margin-top:0!important;font-size:10px;line-height:1}
+  .row-details{grid-column:2/4;margin-top:3px;padding:6px 7px}
+}
 </style>
 <script>
 (function(){
