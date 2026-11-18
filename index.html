@@ -535,7 +535,16 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   function initializeGoogleAuthorization(){if(!window.google?.accounts?.oauth2)throw new Error('No s’ha pogut carregar la connexió de Google. Comprova que tens internet.');tokenClient=window.google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:SCOPE,callback:response=>{if(response.error){setStatus('No s’ha pogut connectar amb Google Drive. Torna-ho a provar.',true);return}accessToken=response.access_token;syncDrive()}});btn.disabled=false;setStatus(localStorage.getItem('bolo-tracker-drive-connected-v1')==='true'?'Drive preparat · prem «Sincronitza Drive» per actualitzar les dades':'El primer cop crearà la carpeta Bolo Tracker i dades.json al teu Drive.')}
   btn.disabled=true;setStatus('Carregant la connexió amb Google…');
   loadGoogleIdentity().then(initializeGoogleAuthorization).catch(error=>{btn.disabled=false;setStatus(error.message||'No s’ha pogut carregar la connexió de Google. Comprova que tens internet.',true)});
-  btn.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();if(!tokenClient){setStatus('La connexió de Google encara s’està carregant. Torna-ho a provar en un moment.',true);return}tokenClient.requestAccessToken({prompt:''})});
+  // Capture this action before any delegated page handlers. It must never fall
+  // through to the new-shift form or behave like a form submission.
+  btn.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if(!tokenClient){setStatus('La connexió de Google encara s’està carregant. Torna-ho a provar en un moment.',true);return}
+    setStatus('Connectant amb Google…');
+    try{tokenClient.requestAccessToken({prompt:'consent'})}
+    catch(error){setStatus(`No s’ha pogut obrir la finestra de Google: ${error.message||'comprova si el navegador n’ha bloquejat la finestra emergent.'}`,true)}
+  },true);
   const originalRender=window.render;
   if(typeof originalRender==='function')window.render=function(){originalRender();scheduleSync()};
   window.addEventListener('bolo-data-changed',scheduleSync);
