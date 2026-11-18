@@ -550,4 +550,18 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   window.addEventListener('bolo-data-changed',scheduleSync);
 })();
 </script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  let reloadAfterControl = !navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!reloadAfterControl) return;
+    reloadAfterControl = false;
+    location.reload();
+  });
+  const workerUrl = new URL('./drive-coop-sw.js', location.href);
+  const workerScope = new URL('./', location.href).pathname;
+  navigator.serviceWorker.register(workerUrl, {scope: workerScope})
+    .catch(error => console.warn('Bolo Tracker: no s’ha pogut activar el servei de compatibilitat OAuth.', error));
+}
+</script>
 </body></html>
