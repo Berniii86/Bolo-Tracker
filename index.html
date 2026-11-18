@@ -160,6 +160,69 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
 @media(max-width:1000px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:800px){.hero{display:flex;grid-template-columns:none}.hero-mark{height:42px;width:42px}}
 @media(max-width:560px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.stats .stat,.stats .stat:first-child{padding:10px}.stats .stat strong{font-size:19px}.hero{padding:13px 16px}.hero-mark{display:none}}
+
+/* Disposició específica per a iPhone; la vista d’escriptori es conserva. */
+@media(max-width:600px){
+  .shell{display:flex;flex-direction:column;gap:12px;padding:14px 12px 34px}
+  .top{order:0;display:flex;flex-direction:column;align-items:stretch;gap:11px;margin:0}
+  .brand{gap:9px}
+  .logo{width:40px;height:40px;flex:0 0 40px}
+  .logo svg{width:27px;height:27px}
+  .brand h1{font-size:18px}
+  .brand p{font-size:12px}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%}
+  .actions #new{grid-column:1/-1;grid-row:1;width:100%;min-height:44px}
+  .actions #exportDropdown,.actions #importBackup{width:100%;min-width:0}
+  .actions #exportToggle,.actions #importBackup{width:100%;min-height:42px;padding:8px;font-size:12px}
+  .export-menu{min-width:190px}
+  .hero{order:1;width:100%;padding:13px 15px;border-radius:16px}
+  .hero .eyebrow{font-size:11px}
+  .hero h2{font-size:20px}
+  .hero p{font-size:12px}
+  .hero-mark{display:none}
+  .grid{order:2;display:flex;flex-direction:column;gap:12px;width:100%}
+  .grid>.section{order:0;padding:15px 13px;border-radius:16px}
+  .section-head{align-items:stretch;gap:10px;margin-bottom:12px}
+  .section h3{font-size:16px}
+  .sort-controls{display:grid;grid-template-columns:auto minmax(0,1fr) 38px;gap:6px;width:100%;align-items:center}
+  .sort-controls label{font-size:10px}
+  .sort-controls select{max-width:none;min-width:0;padding:8px 6px;font-size:11px}
+  .sort-controls .btn{min-width:38px}
+  .work-row{grid-template-columns:34px minmax(0,1fr);align-items:start;gap:5px 9px;padding:12px 2px}
+  .day-icon{width:34px;height:34px;border-radius:10px;font-size:13px}
+  .work-row>div:nth-child(2){min-width:0;overflow-wrap:anywhere}
+  .row-title{font-size:14px;line-height:1.3}
+  .row-sub,.row-meta{font-size:11px;line-height:1.4}
+  .row-note{font-size:11px;padding:5px 7px}
+  .hours{grid-column:2;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;font-size:16px;margin-top:2px}
+  .hours small{display:flex;align-items:center;gap:5px;white-space:nowrap;font-size:10px}
+  .hours .btn.small{min-height:36px;padding:6px 9px;font-size:11px}
+  .side{order:1;display:flex;flex-direction:column;gap:11px;width:100%}
+  .side .mini{padding:14px;border-radius:16px}
+  .side .mini h3{font-size:14px;margin-bottom:11px}
+  .month-calendar{gap:3px}
+  .calendar-cell,.calendar-empty{min-height:36px}
+  .calendar-nav strong{min-width:88px;font-size:12px}
+  .calendar-weekday{font-size:9px}
+  .side .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{order:3;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0;width:100%}
+  .stats .stat,.stats .stat:first-child{padding:10px;border-radius:13px}
+  .stats .stat label{font-size:10px}
+  .stats .stat strong{font-size:19px}
+  .stats .stat small{font-size:9px}
+  .week{gap:4px}
+  .bar-day{height:42px}
+  .modal-wrap{place-items:end center;padding:7px}
+  .modal{width:100%;max-height:94vh;padding:19px 15px;border-radius:18px 18px 12px 12px}
+  .modal-head{margin-bottom:14px}
+  .field{margin:12px 0}
+  .field input,.field select,.field textarea{padding:10px}
+  .hours-choice{gap:5px}
+  .hours-choice button{padding:10px 3px;font-size:13px}
+  .client-select-row,.location-select-row{gap:6px}
+  .client-select-row .btn,.location-select-row .btn{padding:8px;font-size:11px;white-space:nowrap}
+  .modal-foot .btn{min-height:42px}
+}
 </style>
 <script>
 (function(){
