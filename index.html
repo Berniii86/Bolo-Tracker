@@ -215,8 +215,8 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   .stats .stat small{font-size:9px}
   .week{gap:4px}
   .bar-day{height:42px}
-  .modal-wrap{display:flex;flex-direction:column;align-items:center;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top,0px) + 10px) 8px calc(env(safe-area-inset-bottom,0px) + 10px)}
-  .modal{flex:0 0 auto;width:100%;max-height:none;overflow:visible;margin:auto 0;padding:19px 15px;border-radius:18px}
+  .modal-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top,0px) + 10px) 8px calc(env(safe-area-inset-bottom,0px) + 10px)}
+  .modal{flex:0 0 auto;width:100%;max-height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 20px);max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 20px);overflow-y:auto;overflow-x:hidden;margin:auto 0;padding:19px 15px;border-radius:18px}
   .modal-head{margin-bottom:14px}
   .field{margin:12px 0}
   .field input,.field select,.field textarea{padding:10px}
@@ -224,7 +224,8 @@ body.printing #printReport{display:block!important;position:fixed;inset:0;z-inde
   .hours-choice button{padding:10px 3px;font-size:13px}
   .client-select-row,.location-select-row{gap:6px}
   .client-select-row .btn,.location-select-row .btn{padding:8px;font-size:11px;white-space:nowrap}
-  .modal-foot .btn{min-height:42px}
+  .modal-foot{position:sticky;bottom:0;z-index:1;background:#fff;padding-top:12px;margin-top:12px}
+  .modal-foot .btn{min-height:42px;min-width:0}
 }
 
 .work-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
